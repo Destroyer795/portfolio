@@ -1,0 +1,36 @@
+---
+---
+<nav class="fixed top-0 w-full z-50 border-b border-neutral-200 dark:border-white/5 bg-white/70 dark:bg-neutral-950/70 backdrop-blur-xl transition-colors duration-300">
+  <div class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="#" class="text-neutral-900 dark:text-white font-bold tracking-tight text-lg hover:text-emerald-600 dark:hover:text-neutral-300 transition-colors z-50 relative">PK.</a>
+    
+    <div class="hidden md:flex items-center gap-8 text-sm text-neutral-600 dark:text-neutral-400 font-medium">
+        <a href="#about" class="hover:text-black dark:hover:text-white transition-colors">About</a>
+        <a href="#skills" class="hover:text-black dark:hover:text-white transition-colors">Skills</a>
+        <a href="#projects" class="hover:text-black dark:hover:text-white transition-colors">Projects</a>
+        <a href="#experience" class="hover:text-black dark:hover:text-white transition-colors">Experience</a>
+    </div>
+
+    <div class="flex items-center gap-4 z-50 relative">
+        
+        <button id="theme-toggle" class="p-2 rounded-full text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-white/10 transition-colors focus:outline-none" aria-label="Toggle Dark Mode">
+            <svg class="sun-icon w-5 h-5 hidden dark:block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+            </svg>
+            <svg class="moon-icon w-5 h-5 block dark:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+            </svg>
+        </button>
+        
+        <a href="/resume.pdf" target="_blank" class="hidden md:inline-flex items-center justify-center px-4 py-2 text-xs font-bold text-white dark:text-neutral-950 transition-all duration-200 bg-neutral-900 dark:bg-white rounded-full hover:bg-neutral-700 dark:hover:bg-neutral-200">
+            Resume
+        </a>
+
+        <button id="mobile-menu-btn" class="md:hidden p-2 text-neutral-900 dark:text-white focus:outline-none" aria-label="Open Menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+        </button>
+    </div>
+  </div>
+</nav>
