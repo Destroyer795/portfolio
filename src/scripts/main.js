@@ -92,6 +92,54 @@ function initPage() {
     observer.observe(section);
   });
 
+  const sections = document.querySelectorAll('section');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  const observerOptions = {
+    root: null,
+    rootMargin: '-50% 0px -50% 0px',
+    threshold: 0,
+  };
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${id}`) {
+            link.classList.add('active');
+          }
+        });
+      }
+    });
+  }, observerOptions);
+
+  sections.forEach(section => {
+    if (section.getAttribute('id')) {
+      sectionObserver.observe(section);
+    }
+  });
+
+  // Staggered list animation
+  const staggerObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const staggerItems = entry.target.querySelectorAll('.stagger-item');
+        staggerItems.forEach((item, index) => {
+          setTimeout(() => {
+            item.classList.add('is-visible');
+          }, index * 150);
+        });
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('[data-stagger-container]').forEach(container => {
+    staggerObserver.observe(container);
+  });
+
   setInitialTheme();
 }
 
