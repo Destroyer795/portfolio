@@ -1,50 +1,124 @@
 ---
+// src/components/sections/Skills.astro
 ---
-<section id="skills" class="reveal py-20 border-t border-neutral-200 dark:border-white/5">
-    <h2 class="text-sm md:text-base font-bold text-neutral-500 uppercase tracking-widest mb-12">02. Technical Arsenal</h2>
-    
-    <div class="space-y-8" data-stagger-container>
+<section id="skills" class="reveal py-24 border-t border-neutral-200 dark:border-white/5">
+    <div class="max-w-5xl mx-auto px-4">
+        <h2 class="text-sm font-bold text-neutral-500 uppercase tracking-widest mb-16">02. Technical Arsenal</h2>
+        
+        <div class="space-y-2">
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-2 stagger-item">
-            <h3 class="text-lg md:text-xl font-bold text-neutral-900 dark:text-white">Backend & Systems</h3>
-            <div class="md:col-span-3 flex flex-wrap gap-2">
-                <span class="skill-tag">FastAPI</span>
-                <span class="skill-tag">Node.js</span>
-                <span class="skill-tag">Express.js</span>
-                <span class="skill-tag">REST APIs</span>
-                <span class="skill-tag">Microservices</span>
-                <span class="skill-tag">System Design</span>
-                <span class="skill-tag">C/C++</span>
-                <span class="skill-tag">Java</span>
-                <span class="skill-tag">SQL</span>
+            <div class="group grid grid-cols-1 md:grid-cols-12 gap-6 p-6 rounded-2xl transition-all duration-300 hover:bg-neutral-50 dark:hover:bg-white/5 border-b border-neutral-100 dark:border-white/5 hover:border-transparent">
+                <div class="md:col-span-4">
+                    <h3 class="text-lg font-bold text-neutral-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">Languages</h3>
+                    <p class="text-sm text-neutral-500 dark:text-neutral-400">Core fluency</p>
+                </div>
+                <div class="md:col-span-8 flex flex-wrap gap-2 content-start">
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">C/C++</span>
+                    <span class="skill-tag">Java</span>
+                    <span class="skill-tag">TypeScript</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">SQL</span>
+                </div>
             </div>
-        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-2 stagger-item">
-            <h3 class="text-lg md:text-xl font-bold text-neutral-900 dark:text-white">Databases & Cloud</h3>
-            <div class="md:col-span-3 flex flex-wrap gap-2">
-                <span class="skill-tag">SQLite</span>
-                <span class="skill-tag">MySQL</span>
-                <span class="skill-tag">MongoDB</span>
-                <span class="skill-tag">Google Cloud</span>
-                <span class="skill-tag">Supabase</span>
-                <span class="skill-tag">Docker</span>
-                <span class="skill-tag">GitHub Actions</span>
+            <div class="group grid grid-cols-1 md:grid-cols-12 gap-6 p-6 rounded-2xl transition-all duration-300 hover:bg-neutral-50 dark:hover:bg-white/5 border-b border-neutral-100 dark:border-white/5 hover:border-transparent">
+                <div class="md:col-span-4">
+                    <h3 class="text-lg font-bold text-neutral-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">Backend & Systems</h3>
+                    <p class="text-sm text-neutral-500 dark:text-neutral-400">High-performance architecture</p>
+                </div>
+                <div class="md:col-span-8 flex flex-wrap gap-2 content-start">
+                    <span class="skill-tag">FastAPI</span>
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">Express.js</span>
+                    <span class="skill-tag">REST APIs</span>
+                    <span class="skill-tag">Microservices</span>
+                    <span class="skill-tag">System Design</span>
+                    <span class="skill-tag">Concurrency</span>
+                </div>
             </div>
-        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-2 stagger-item">
-            <h3 class="text-lg md:text-xl font-bold text-neutral-900 dark:text-white">AI & Frontend</h3>
-            <div class="md:col-span-3 flex flex-wrap gap-2">
-                <span class="skill-tag">LLM Integration</span>
-                <span class="skill-tag">MCP</span>
-                <span class="skill-tag">Data Pipelines</span>
-                <span class="skill-tag">Vector Embeddings</span>
-                <span class="skill-tag">React.js</span>
-                <span class="skill-tag">Tailwind</span>
-                <span class="skill-tag">TypeScript</span>
+            <div class="group grid grid-cols-1 md:grid-cols-12 gap-6 p-6 rounded-2xl transition-all duration-300 hover:bg-neutral-50 dark:hover:bg-white/5 border-b border-neutral-100 dark:border-white/5 hover:border-transparent">
+                <div class="md:col-span-4">
+                    <h3 class="text-lg font-bold text-neutral-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">Databases & Cloud</h3>
+                    <p class="text-sm text-neutral-500 dark:text-neutral-400">Data persistence & infrastructure</p>
+                </div>
+                <div class="md:col-span-8 flex flex-wrap gap-2 content-start">
+                    <span class="skill-tag">SQLite</span>
+                    <span class="skill-tag">MySQL</span>
+                    <span class="skill-tag">MongoDB</span>
+                    <span class="skill-tag">Google Cloud</span>
+                    <span class="skill-tag">Supabase</span>
+                    <span class="skill-tag">Docker</span>
+                    <span class="skill-tag">GitHub Actions</span>
+                </div>
             </div>
-        </div>
 
+            <div class="group grid grid-cols-1 md:grid-cols-12 gap-6 p-6 rounded-2xl transition-all duration-300 hover:bg-neutral-50 dark:hover:bg-white/5 border-b border-neutral-100 dark:border-white/5 hover:border-transparent">
+                <div class="md:col-span-4">
+                    <h3 class="text-lg font-bold text-neutral-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">AI & Frontend</h3>
+                    <p class="text-sm text-neutral-500 dark:text-neutral-400">Interface & Intelligence</p>
+                </div>
+                <div class="md:col-span-8 flex flex-wrap gap-2 content-start">
+                    <span class="skill-tag">LLM Integration</span>
+                    <span class="skill-tag">MCP</span>
+                    <span class="skill-tag">Data Pipelines</span>
+                    <span class="skill-tag">Vector Embeddings</span>
+                    <span class="skill-tag">React.js</span>
+                    <span class="skill-tag">Tailwind</span>
+                </div>
+            </div>
+
+        </div>
     </div>
 </section>
+
+<style>
+    /* Clean "Pill" Tag Design */
+    .skill-tag {
+        padding: 0.35rem 0.85rem;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 0.8rem;
+        border-radius: 9999px; /* Fully rounded pill */
+        
+        /* Light Mode Default */
+        background-color: transparent;
+        border: 1px solid #e5e5e5; /* neutral-200 */
+        color: #525252; /* neutral-600 */
+        
+        transition: all 0.2s ease-in-out;
+        cursor: default;
+    }
+
+    /* Dark Mode Default */
+    :global(.dark) .skill-tag {
+        border-color: rgba(255,255,255,0.1);
+        color: #a3a3a3; /* neutral-400 */
+    }
+
+    /* Hover State (Parent Group Hover) - The "Fashionable" Part */
+    .group:hover .skill-tag {
+        background-color: white;
+        border-color: #cbd5e1; /* slate-300 */
+        color: #111827; /* neutral-900 */
+        transform: translateY(-1px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    :global(.dark) .group:hover .skill-tag {
+        background-color: rgba(255,255,255,0.1);
+        border-color: rgba(255,255,255,0.2);
+        color: white;
+        box-shadow: none;
+    }
+    
+    /* Optional: Highlight specific tags on direct hover for extra interactivity */
+    .skill-tag:hover {
+        border-color: #6366f1 !important; /* indigo-500 */
+        color: #4f46e5 !important; /* indigo-600 */
+    }
+    :global(.dark) .skill-tag:hover {
+        border-color: #818cf8 !important; /* indigo-400 */
+        color: #818cf8 !important;
+    }
+</style>
