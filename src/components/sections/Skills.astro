@@ -74,33 +74,29 @@
 </section>
 
 <style>
-    /* Clean "Pill" Tag Design */
     .skill-tag {
         padding: 0.35rem 0.85rem;
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
         font-size: 0.8rem;
-        border-radius: 9999px; /* Fully rounded pill */
+        border-radius: 9999px;
         
-        /* Light Mode Default */
         background-color: transparent;
-        border: 1px solid #e5e5e5; /* neutral-200 */
-        color: #525252; /* neutral-600 */
+        border: 1px solid #e5e5e5; 
+        color: #525252; 
         
         transition: all 0.2s ease-in-out;
         cursor: default;
     }
 
-    /* Dark Mode Default */
     :global(.dark) .skill-tag {
         border-color: rgba(255,255,255,0.1);
-        color: #a3a3a3; /* neutral-400 */
+        color: #a3a3a3;
     }
 
-    /* Hover State (Parent Group Hover) - The "Fashionable" Part */
     .group:hover .skill-tag {
         background-color: white;
-        border-color: #cbd5e1; /* slate-300 */
-        color: #111827; /* neutral-900 */
+        border-color: #cbd5e1; 
+        color: #111827;
         transform: translateY(-1px);
         box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
@@ -112,13 +108,12 @@
         box-shadow: none;
     }
     
-    /* Optional: Highlight specific tags on direct hover for extra interactivity */
     .skill-tag:hover {
-        border-color: #6366f1 !important; /* indigo-500 */
-        color: #4f46e5 !important; /* indigo-600 */
+        border-color: #6366f1 !important; 
+        color: #4f46e5 !important;
     }
     :global(.dark) .skill-tag:hover {
-        border-color: #818cf8 !important; /* indigo-400 */
+        border-color: #818cf8 !important; 
         color: #818cf8 !important;
     }
 </style>

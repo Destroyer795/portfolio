@@ -1,4 +1,21 @@
+import Lenis from 'lenis';
+
+let lenis;
+let rafId;
+
 function initPage() {
+  if (lenis) {
+    lenis.destroy();
+    cancelAnimationFrame(rafId);
+  }
+
+  lenis = new Lenis();
+  function raf(time) {
+    lenis.raf(time);
+    rafId = requestAnimationFrame(raf);
+  }
+  rafId = requestAnimationFrame(raf);
+
   const themeToggleBtn = document.getElementById('theme-toggle');
   
   const setInitialTheme = () => {
