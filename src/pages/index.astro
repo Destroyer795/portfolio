@@ -17,4 +17,22 @@ import Contact from '../components/sections/Contact.astro';
   <Experience />
   <Programs />
   <Contact />
+
+  <script is:inline>
+    function checkHash() {
+      const hash = window.location.hash;
+      if (hash) {
+        const id = hash.substring(1);
+        if (id && !document.getElementById(id)) {
+          window.location.href = '/404';
+        }
+      }
+    }
+
+    // Check on initial load
+    document.addEventListener('DOMContentLoaded', checkHash);
+    
+    // Check on hash change
+    window.addEventListener('hashchange', checkHash);
+  </script>
 </BaseLayout>
