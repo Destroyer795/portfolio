@@ -46,73 +46,36 @@ function initPage() {
 
   if (themeToggleBtn && !themeToggleBtn._themeListenerAttached) {
     themeToggleBtn._themeListenerAttached = true;
-    themeToggleBtn.addEventListener('click', (e) => {
+    themeToggleBtn.addEventListener('click', () => {
       if (!document.startViewTransition) {
         toggleTheme();
         return;
       }
 
+      // Calculate exact pixel center of the theme toggle button
       const rect = themeToggleBtn.getBoundingClientRect();
-      const x = (e && typeof e.clientX === 'number' && e.clientX !== 0) ? e.clientX : (rect.left + rect.width / 2);
-      const y = (e && typeof e.clientY === 'number' && e.clientY !== 0) ? e.clientY : (rect.top + rect.height / 2);
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
       const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
 
-      // Use a unique keyframe name each time (prevents browser keyframe caching)
-      const animName = `theme-reveal-${Date.now()}`;
+      const transition = document.startViewTransition(() => {
+        toggleTheme();
+      });
 
-      // Remove any leftover style from a previous transition
-      const existingStyle = document.getElementById('theme-transition-style');
-      if (existingStyle) existingStyle.remove();
-
-      // Inject view-transition CSS with WebKit prefixes & complete transition suppression
-      const style = document.createElement('style');
-      style.id = 'theme-transition-style';
-      style.textContent = `
-        html, body, *, *::before, *::after {
-          -webkit-transition: none !important;
-          -moz-transition: none !important;
-          transition: none !important;
-        }
-        ::view-transition-old(root),
-        ::view-transition-new(root) {
-          mix-blend-mode: normal;
-          -webkit-animation: none;
-        }
-        ::view-transition-old(root) {
-          z-index: 1;
-          animation: none;
-        }
-        ::view-transition-new(root) {
-          z-index: 9999;
-          -webkit-animation: ${animName} 400ms ease-out forwards;
-          animation: ${animName} 400ms ease-out forwards;
-        }
-        @-webkit-keyframes ${animName} {
-          from { -webkit-clip-path: circle(0px at ${x}px ${y}px); clip-path: circle(0px at ${x}px ${y}px); }
-          to   { -webkit-clip-path: circle(${endRadius}px at ${x}px ${y}px); clip-path: circle(${endRadius}px at ${x}px ${y}px); }
-        }
-        @keyframes ${animName} {
-          from { -webkit-clip-path: circle(0px at ${x}px ${y}px); clip-path: circle(0px at ${x}px ${y}px); }
-          to   { -webkit-clip-path: circle(${endRadius}px at ${x}px ${y}px); clip-path: circle(${endRadius}px at ${x}px ${y}px); }
-        }
-      `;
-      document.head.appendChild(style);
-
-      const transition = document.startViewTransition(toggleTheme);
-
-      transition.finished.then(() => {
-        // Force WebKit style and layout calculation
-        void document.documentElement.offsetHeight;
-
-        // Double RAF ensures Safari paints the live DOM state in the new theme
-        // before removing the transition suppression style tag
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            if (style.parentNode) style.remove();
-            // Flush Safari fixed/backdrop compositor layers
-            window.dispatchEvent(new Event('scroll'));
-          });
-        });
+      transition.ready.then(() => {
+        document.documentElement.animate(
+          {
+            clipPath: [
+              `circle(0px at ${x}px ${y}px)`,
+              `circle(${endRadius}px at ${x}px ${y}px)`
+            ]
+          },
+          {
+            duration: 400,
+            easing: 'ease-out',
+            pseudoElement: '::view-transition-new(root)',
+          }
+        );
       });
     });
   }
