@@ -51,29 +51,32 @@ function initPage() {
         toggleTheme();
         return;
       }
-      const x = e.clientX;
-      const y = e.clientY;
+
+      const rect = themeToggleBtn.getBoundingClientRect();
+      const x = (e && typeof e.clientX === 'number' && e.clientX !== 0) ? e.clientX : (rect.left + rect.width / 2);
+      const y = (e && typeof e.clientY === 'number' && e.clientY !== 0) ? e.clientY : (rect.top + rect.height / 2);
       const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
 
-      // Use a unique keyframe name each time (Chrome caches @keyframes by name)
+      // Use a unique keyframe name each time (prevents browser keyframe caching)
       const animName = `theme-reveal-${Date.now()}`;
 
       // Remove any leftover style from a previous transition
       const existingStyle = document.getElementById('theme-transition-style');
       if (existingStyle) existingStyle.remove();
 
-      // Inject view-transition CSS + disable all CSS transitions to prevent
-      // post-animation glitch (body/navbar have transition-colors which
-      // causes a secondary color shift after the view transition ends)
+      // Inject view-transition CSS with WebKit prefixes & complete transition suppression
       const style = document.createElement('style');
       style.id = 'theme-transition-style';
       style.textContent = `
-        *, *::before, *::after {
-          transition-duration: 0s !important;
+        html, body, *, *::before, *::after {
+          -webkit-transition: none !important;
+          -moz-transition: none !important;
+          transition: none !important;
         }
         ::view-transition-old(root),
         ::view-transition-new(root) {
           mix-blend-mode: normal;
+          -webkit-animation: none;
         }
         ::view-transition-old(root) {
           z-index: 1;
@@ -81,11 +84,16 @@ function initPage() {
         }
         ::view-transition-new(root) {
           z-index: 9999;
+          -webkit-animation: ${animName} 400ms ease-out forwards;
           animation: ${animName} 400ms ease-out forwards;
         }
+        @-webkit-keyframes ${animName} {
+          from { -webkit-clip-path: circle(0px at ${x}px ${y}px); clip-path: circle(0px at ${x}px ${y}px); }
+          to   { -webkit-clip-path: circle(${endRadius}px at ${x}px ${y}px); clip-path: circle(${endRadius}px at ${x}px ${y}px); }
+        }
         @keyframes ${animName} {
-          from { clip-path: circle(0px at ${x}px ${y}px); }
-          to   { clip-path: circle(${endRadius}px at ${x}px ${y}px); }
+          from { -webkit-clip-path: circle(0px at ${x}px ${y}px); clip-path: circle(0px at ${x}px ${y}px); }
+          to   { -webkit-clip-path: circle(${endRadius}px at ${x}px ${y}px); clip-path: circle(${endRadius}px at ${x}px ${y}px); }
         }
       `;
       document.head.appendChild(style);
@@ -93,9 +101,17 @@ function initPage() {
       const transition = document.startViewTransition(toggleTheme);
 
       transition.finished.then(() => {
-        // Wait one frame so the final state renders without transitions
+        // Force WebKit style and layout calculation
+        void document.documentElement.offsetHeight;
+
+        // Double RAF ensures Safari paints the live DOM state in the new theme
+        // before removing the transition suppression style tag
         requestAnimationFrame(() => {
-          style.remove();
+          requestAnimationFrame(() => {
+            if (style.parentNode) style.remove();
+            // Flush Safari fixed/backdrop compositor layers
+            window.dispatchEvent(new Event('scroll'));
+          });
         });
       });
     });
