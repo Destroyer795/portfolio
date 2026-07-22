@@ -62,10 +62,15 @@ function initPage() {
       const existingStyle = document.getElementById('theme-transition-style');
       if (existingStyle) existingStyle.remove();
 
-      // Inject ALL view-transition CSS dynamically to avoid specificity conflicts
+      // Inject view-transition CSS + disable all CSS transitions to prevent
+      // post-animation glitch (body/navbar have transition-colors which
+      // causes a secondary color shift after the view transition ends)
       const style = document.createElement('style');
       style.id = 'theme-transition-style';
       style.textContent = `
+        *, *::before, *::after {
+          transition-duration: 0s !important;
+        }
         ::view-transition-old(root),
         ::view-transition-new(root) {
           mix-blend-mode: normal;
@@ -88,7 +93,10 @@ function initPage() {
       const transition = document.startViewTransition(toggleTheme);
 
       transition.finished.then(() => {
-        style.remove();
+        // Wait one frame so the final state renders without transitions
+        requestAnimationFrame(() => {
+          style.remove();
+        });
       });
     });
   }
