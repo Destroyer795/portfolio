@@ -46,16 +46,23 @@ function initPage() {
 
   if (themeToggleBtn && !themeToggleBtn._themeListenerAttached) {
     themeToggleBtn._themeListenerAttached = true;
-    themeToggleBtn.addEventListener('click', () => {
+    themeToggleBtn.addEventListener('click', (e) => {
       if (!document.startViewTransition) {
         toggleTheme();
         return;
       }
 
-      // Calculate exact pixel center of the theme toggle button
+      // Always measure the exact center of the theme-toggle button
       const rect = themeToggleBtn.getBoundingClientRect();
-      const x = rect.left + rect.width / 2;
-      const y = rect.top + rect.height / 2;
+      let x = rect.left + rect.width / 2;
+      let y = rect.top + rect.height / 2;
+
+      // Fallback safeguard: if rect measurement is invalid, default to top-right button location
+      if (!x || isNaN(x) || x === 0) {
+        x = window.innerWidth - 48;
+        y = 32;
+      }
+
       const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
 
       const transition = document.startViewTransition(() => {
@@ -64,12 +71,16 @@ function initPage() {
 
       transition.ready.then(() => {
         document.documentElement.animate(
-          {
-            clipPath: [
-              `circle(0px at ${x}px ${y}px)`,
-              `circle(${endRadius}px at ${x}px ${y}px)`
-            ]
-          },
+          [
+            {
+              clipPath: `circle(0px at ${x}px ${y}px)`,
+              'clip-path': `circle(0px at ${x}px ${y}px)`
+            },
+            {
+              clipPath: `circle(${endRadius}px at ${x}px ${y}px)`,
+              'clip-path': `circle(${endRadius}px at ${x}px ${y}px)`
+            }
+          ],
           {
             duration: 400,
             easing: 'ease-out',
