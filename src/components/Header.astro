@@ -58,6 +58,16 @@
         transform-origin: left;
         transform: scaleX(1);
     }
+
+    /* Scrolling up: flip the underline direction */
+    :global([data-scroll-dir="up"]) .nav-link::after {
+        transform-origin: left;
+    }
+    :global([data-scroll-dir="up"]) .nav-link:hover::after,
+    :global([data-scroll-dir="up"]) .nav-link.active::after {
+        transform-origin: right;
+    }
+
     .nav-link.active {
         @apply text-black dark:text-white;
     }

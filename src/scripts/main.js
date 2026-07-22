@@ -44,7 +44,8 @@ function initPage() {
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   };
 
-  if (themeToggleBtn) {
+  if (themeToggleBtn && !themeToggleBtn._themeListenerAttached) {
+    themeToggleBtn._themeListenerAttached = true;
     themeToggleBtn.addEventListener('click', (e) => {
       if (!document.startViewTransition) {
         toggleTheme();
@@ -53,22 +54,41 @@ function initPage() {
       const x = e.clientX;
       const y = e.clientY;
       const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
-      
+
+      // Use a unique keyframe name each time (Chrome caches @keyframes by name)
+      const animName = `theme-reveal-${Date.now()}`;
+
+      // Remove any leftover style from a previous transition
+      const existingStyle = document.getElementById('theme-transition-style');
+      if (existingStyle) existingStyle.remove();
+
+      // Inject ALL view-transition CSS dynamically to avoid specificity conflicts
+      const style = document.createElement('style');
+      style.id = 'theme-transition-style';
+      style.textContent = `
+        ::view-transition-old(root),
+        ::view-transition-new(root) {
+          mix-blend-mode: normal;
+        }
+        ::view-transition-old(root) {
+          z-index: 1;
+          animation: none;
+        }
+        ::view-transition-new(root) {
+          z-index: 9999;
+          animation: ${animName} 400ms ease-out forwards;
+        }
+        @keyframes ${animName} {
+          from { clip-path: circle(0px at ${x}px ${y}px); }
+          to   { clip-path: circle(${endRadius}px at ${x}px ${y}px); }
+        }
+      `;
+      document.head.appendChild(style);
+
       const transition = document.startViewTransition(toggleTheme);
 
-      transition.ready.then(() => {
-        const clipPath = [
-          `circle(0px at ${x}px ${y}px)`,
-          `circle(${endRadius}px at ${x}px ${y}px)`
-        ];
-        document.documentElement.animate(
-          { clipPath: clipPath },
-          {
-            duration: 500,
-            easing: 'ease-in-out',
-            pseudoElement: '::view-transition-new(root)',
-          }
-        );
+      transition.finished.then(() => {
+        style.remove();
       });
     });
   }
@@ -108,6 +128,18 @@ function initPage() {
   document.querySelectorAll('.reveal').forEach((section) => {
     observer.observe(section);
   });
+
+  // Track scroll direction for nav link underline animation
+  let lastScrollY = window.scrollY;
+  window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
+    if (currentScrollY > lastScrollY) {
+      document.documentElement.setAttribute('data-scroll-dir', 'down');
+    } else if (currentScrollY < lastScrollY) {
+      document.documentElement.setAttribute('data-scroll-dir', 'up');
+    }
+    lastScrollY = currentScrollY;
+  }, { passive: true });
 
   const sections = document.querySelectorAll('section');
   const navLinks = document.querySelectorAll('.nav-link');
